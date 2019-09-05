@@ -13,6 +13,7 @@
     <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/dark_sky_blue</item>
         <item name="titleTextStyle">@style/ActionBarTitleTextStyle</item>
+        <item name="android:actionMenuTextColor">@color/dark_sky_blue</item>
     </style>
 
     <style name="ActionBarTitleTextStyle" parent="TextAppearance.AppCompat">
