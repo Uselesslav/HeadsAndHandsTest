@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Heads And Hands Test</string>
+
+    <string name="authorization">Авторизация</string>
 </resources>
