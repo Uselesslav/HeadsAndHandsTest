@@ -1,8 +1,10 @@
 package com.example.headsandhandstest
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,12 +20,13 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.authorization)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        activityMainSignIn.setOnClickListener {
-            hideKeyboard()
-            showSnackBar(
-                activityMainEmail.text.toString() + " " + activityMainPassword.text.toString(),
-                activityMainContainer
-            )
+        activityMainSignIn.setOnClickListener { tryToSignIn() }
+        activityMainPassword.setOnEditorActionListener { _, actionId, event ->
+            if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                tryToSignIn()
+            }
+
+            false
         }
     }
 
@@ -35,6 +38,14 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         hideKeyboard()
+    }
+
+    private fun tryToSignIn() {
+        hideKeyboard()
+        showSnackBar(
+            activityMainEmail.text.toString() + " " + activityMainPassword.text.toString(),
+            activityMainContainer
+        )
     }
 
     //==============================================================================================
