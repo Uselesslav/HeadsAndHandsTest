@@ -3,4 +3,7 @@
 
     <string name="authorization">Авторизация</string>
     <string name="create">Создать</string>
+    <string name="password">Пароль</string>
+    <string name="email">Электронная почта</string>
+    <string name="sign_in">Войти</string>
 </resources>

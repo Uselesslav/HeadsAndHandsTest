@@ -1,10 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.Design.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="actionBarTheme">@style/ActionBarTheme</item>
     </style>
@@ -21,5 +23,13 @@
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <!--  Buttons  -->
+    <style name="SignInButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
