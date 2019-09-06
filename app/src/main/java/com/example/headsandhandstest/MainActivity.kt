@@ -18,7 +18,23 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.authorization)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        activityMainSignIn.setOnClickListener { showSnackBar(activityMainEmail.text.toString() + " " + activityMainPassword.text.toString()) }
+        activityMainSignIn.setOnClickListener {
+            hideKeyboard()
+            showSnackBar(
+                activityMainEmail.text.toString() + " " + activityMainPassword.text.toString(),
+                activityMainContainer
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showKeyboard(activityMainEmail)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
     }
 
     //==============================================================================================
