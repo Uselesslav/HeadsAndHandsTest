@@ -6,22 +6,22 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_authorization.*
 
-class MainActivity : AppCompatActivity() {
+class AuthorizationActivity : AppCompatActivity() {
 
     //==============================================================================================
     //                              Lifecycle
     //==============================================================================================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_authorization)
 
         supportActionBar?.title = getString(R.string.authorization)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        activityMainSignIn.setOnClickListener { tryToSignIn() }
-        activityMainPassword.setOnEditorActionListener { _, actionId, event ->
+        authorizationSignIn.setOnClickListener { tryToSignIn() }
+        authorizationPassword.setOnEditorActionListener { _, actionId, event ->
             if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                 tryToSignIn()
             }
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        showKeyboard(activityMainEmail)
+        showKeyboard(authorizationEmail)
     }
 
     override fun onPause() {
@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
     private fun tryToSignIn() {
         hideKeyboard()
         showSnackBar(
-            activityMainEmail.text.toString() + " " + activityMainPassword.text.toString(),
-            activityMainContainer
+            authorizationEmail.text.toString() + " " + authorizationPassword.text.toString(),
+            authorizationContainer
         )
     }
 
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_create -> {
-                showSnackBar(getString(R.string.create), activityMainContainer)
+                showSnackBar(getString(R.string.create), authorizationContainer)
                 true
             }
             else -> super.onOptionsItemSelected(item)
