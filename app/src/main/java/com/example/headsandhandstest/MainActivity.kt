@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_create -> {
-                showSnackBar(getString(R.string.create))
+                showSnackBar(getString(R.string.create), activityMainContainer)
                 true
             }
             else -> super.onOptionsItemSelected(item)
