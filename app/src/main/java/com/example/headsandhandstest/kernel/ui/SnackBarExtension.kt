@@ -1,4 +1,4 @@
-package com.example.headsandhandstest.common
+package com.example.headsandhandstest.kernel.ui
 
 import android.app.Activity
 import android.view.View

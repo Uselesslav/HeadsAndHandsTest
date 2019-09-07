@@ -1,4 +1,4 @@
-package com.example.headsandhandstest.ui
+package com.example.headsandhandstest.authorization.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,14 +9,17 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
-import com.example.headsandhandstest.common.hideKeyboard
-import com.example.headsandhandstest.common.showKeyboard
-import com.example.headsandhandstest.common.showSnackBar
+import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
+import com.example.headsandhandstest.kernel.ui.hideKeyboard
+import com.example.headsandhandstest.kernel.ui.showKeyboard
+import com.example.headsandhandstest.kernel.ui.showSnackBar
 import kotlinx.android.synthetic.main.activity_authorization.*
 
 class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     // TODO: Use IoC
-    private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation()
+    private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation(
+        AuthorizationInteractor()
+    )
     private val emailTextWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable) = Unit
         override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) = Unit

@@ -1,4 +1,4 @@
-package com.example.headsandhandstest.ui
+package com.example.headsandhandstest.authorization.ui
 
 import com.example.headsandhandstest.base.MvpView
 
