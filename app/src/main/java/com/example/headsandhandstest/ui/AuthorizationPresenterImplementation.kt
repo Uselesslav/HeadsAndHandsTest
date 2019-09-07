@@ -11,8 +11,17 @@ class AuthorizationPresenterImplementation : AuthorizationPresenter() {
         view.closeKeyboard()
     }
 
+    override fun changedEnteredEmail(email: String, password: String) {
+        view.clearEmailValidationMessage()
+        changeEnabledSignInButton(email, password)
+    }
+
+    override fun changedEnteredPassword(email: String, password: String) {
+        view.clearPasswordValidationMessage()
+        changeEnabledSignInButton(email, password)
+    }
+
     override fun signIn(email: String, password: String) {
-        view.clearValidationMessages()
         if (!email.matches(Regex("^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$"))) {
             view.showEmailNotValidError()
         } else if (password == password.toLowerCase(Locale.getDefault())) {
@@ -35,5 +44,13 @@ class AuthorizationPresenterImplementation : AuthorizationPresenter() {
 
     override fun close() {
         view.close()
+    }
+
+    private fun changeEnabledSignInButton(email: String, password: String) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            view.setSignInButtonEnabled()
+        } else {
+            view.setSignInButtonDisabled()
+        }
     }
 }

@@ -15,9 +15,14 @@ interface AuthorizationView : MvpView {
     fun showKeyboardOnPassword()
     fun closeKeyboard()
 
-    fun clearValidationMessages()
+    fun clearEmailValidationMessage()
+    fun clearPasswordValidationMessage()
+
+    fun setSignInButtonEnabled()
+    fun setSignInButtonDisabled()
 
     fun showCreateMessage()
 
+    // TODO: Move to Navigator
     fun close()
 }

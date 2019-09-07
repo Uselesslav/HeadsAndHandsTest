@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:bottom="2dp">
-        <shape android:shape="rectangle">
-            <corners android:radius="2dp" />
-            <solid android:color="@color/tangerine" />
-        </shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true">
+        <layer-list>
+            <item android:bottom="2dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="2dp" />
+                    <solid android:color="@color/tangerine" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
-</layer-list>
+    <item android:state_enabled="false">
+        <layer-list>
+            <item android:bottom="2dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="2dp" />
+                    <solid android:color="@color/dark_tangerine" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

@@ -1,6 +1,8 @@
 package com.example.headsandhandstest.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -13,9 +15,21 @@ import com.example.headsandhandstest.common.showSnackBar
 import kotlinx.android.synthetic.main.activity_authorization.*
 
 class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
-
     // TODO: Use IoC
     private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation()
+    private val emailTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable) = Unit
+        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) = Unit
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) =
+            presenter.changedEnteredEmail(p0.toString(), authorizationPassword.text.toString())
+    }
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable) = Unit
+        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) = Unit
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) =
+            presenter.changedEnteredPassword(authorizationEmail.text.toString(), p0.toString())
+    }
+
 
     //==============================================================================================
     //                              Lifecycle
@@ -29,6 +43,8 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         authorizationSignIn.setOnClickListener { tryToSignIn() }
+        authorizationEmail.addTextChangedListener(emailTextWatcher)
+        authorizationPassword.addTextChangedListener(passwordTextWatcher)
         authorizationPassword.setOnEditorActionListener { _, actionId, event ->
             if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                 tryToSignIn()
@@ -124,8 +140,19 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
         hideKeyboard()
     }
 
-    override fun clearValidationMessages() {
+    override fun clearEmailValidationMessage() {
         authorizationEmailLayout.error = null
+    }
+
+    override fun clearPasswordValidationMessage() {
         authorizationPasswordLayout.error = null
+    }
+
+    override fun setSignInButtonEnabled() {
+        authorizationSignIn.isEnabled = true
+    }
+
+    override fun setSignInButtonDisabled() {
+        authorizationSignIn.isEnabled = false
     }
 }

@@ -9,4 +9,7 @@ abstract class AuthorizationPresenter : MvpPresenter<AuthorizationView>() {
 
     abstract fun onPause()
     abstract fun onResume()
+
+    abstract fun changedEnteredEmail(email: String, password: String)
+    abstract fun changedEnteredPassword(email: String, password: String)
 }
