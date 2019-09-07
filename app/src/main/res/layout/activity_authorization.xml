@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AuthorizationActivity">
+    tools:context=".ui.AuthorizationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/authorizationEmailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email">
@@ -30,6 +31,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/authorizationPasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
