@@ -137,8 +137,8 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     //==============================================================================================
     //                              Sign in success
     //==============================================================================================
-    override fun showSignInSuccess() {
-        showSnackBar(getString(R.string.sign_in_success), authorizationContainer)
+    override fun showSignInSuccess(result: String) {
+        showSnackBar(result, authorizationContainer)
     }
 
     //==============================================================================================

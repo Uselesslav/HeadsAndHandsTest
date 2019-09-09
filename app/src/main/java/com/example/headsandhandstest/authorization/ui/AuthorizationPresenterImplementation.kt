@@ -33,11 +33,12 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 view.showLoadingIndicator()
-                withContext(Dispatchers.IO) {
-                    authorizationInteractor.signIn(SignInDto(email, password))
-                }
+                val result =
+                    withContext(Dispatchers.IO) {
+                        authorizationInteractor.signIn(SignInDto(email, password))
+                    }
                 view.closeKeyboard()
-                view.showSignInSuccess()
+                view.showSignInSuccess(result)
             } catch (validationException: ValidationException) {
                 catchValidationError(validationException.errors as MutableList<SignInValidationError>)
             } finally {

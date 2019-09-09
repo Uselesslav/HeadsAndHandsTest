@@ -5,9 +5,11 @@ import kotlinx.coroutines.delay
 import java.util.*
 
 class AuthorizationInteractor {
-    suspend fun signIn(signInDto: SignInDto) {
+    suspend fun signIn(signInDto: SignInDto): String {
         delay(1000)
         validate(signInDto)
+
+        return "Погода дададада"
     }
 
     private fun validate(signInDto: SignInDto) {

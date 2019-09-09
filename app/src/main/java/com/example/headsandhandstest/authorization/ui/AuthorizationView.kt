@@ -9,7 +9,7 @@ interface AuthorizationView : MvpView {
     fun showPasswordMustContainAtLeastOneDigitError()
     fun showPasswordMustContainAtLeastSixCharactersError()
 
-    fun showSignInSuccess()
+    fun showSignInSuccess(result: String)
 
     fun showKeyboardOnEmail()
     fun showKeyboardOnPassword()
