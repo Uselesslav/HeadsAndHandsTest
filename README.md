@@ -6,3 +6,6 @@
 - тесты;
 - заменить некоторые deprecated методы и классы;
 - вынести логику проверки строк в отдельный класс из бизнес логики;
+
+
+![alt text](https://github.com/Uselesslav/HeadsAndHandsTest/blob/master/app/screenshot.jpg?raw=true)
