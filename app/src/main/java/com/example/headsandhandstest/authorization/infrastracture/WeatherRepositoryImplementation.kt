@@ -1,6 +1,7 @@
 package com.example.headsandhandstest.authorization.infrastracture
 
 import com.example.headsandhandstest.authorization.application.WeatherRepository
+import com.google.gson.Gson
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,7 +11,8 @@ import java.io.IOException
 class WeatherRepositoryImplementation(
     private val okHttpClient: OkHttpClient,
     private val baseUrl: String,
-    private val token: String
+    private val token: String,
+    private val gson: Gson
 ) : WeatherRepository {
     companion object {
         private const val tokenKey = "key"
@@ -19,7 +21,7 @@ class WeatherRepositoryImplementation(
     }
 
     override suspend fun get(): String =
-        requestWeather(baseUrl, mapOf(tokenKey to token, queryKey to queryValue))
+        parseResponse(requestWeather(baseUrl, mapOf(tokenKey to token, queryKey to queryValue)))
 
     @Throws(IOException::class)
     private fun requestWeather(
@@ -37,5 +39,11 @@ class WeatherRepositoryImplementation(
             .build()
 
         return okHttpClient.newCall(request).execute().body!!.string()
+    }
+
+    private fun parseResponse(response: String): String {
+        val result = gson.fromJson(response, WeatherDto::class.java)
+
+        return result.location.name + " " + result.current.temp_c
     }
 }
