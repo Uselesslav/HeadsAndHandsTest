@@ -52,4 +52,7 @@ dependencies {
 
     // Json parser
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    // IoC
+    implementation "org.koin:koin-android:2.0.1"
 }

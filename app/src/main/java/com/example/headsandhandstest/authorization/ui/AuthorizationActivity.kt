@@ -12,33 +12,15 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
-import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
-import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
-import com.example.headsandhandstest.kernel.infrastructure.ConnectionCheckInterceptor
-import com.example.headsandhandstest.kernel.infrastructure.ConnectionManager
-import com.example.headsandhandstest.kernel.infrastructure.LoggingInterceptor
+import com.example.headsandhandstest.authorization.DependenciesContainer
 import com.example.headsandhandstest.kernel.ui.hideKeyboard
 import com.example.headsandhandstest.kernel.ui.showKeyboard
 import com.example.headsandhandstest.kernel.ui.showSnackBar
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_authorization.*
-import okhttp3.OkHttpClient
+import org.koin.android.ext.android.inject
 
 class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
-    // TODO: Use IoC
-    private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation(
-        AuthorizationInteractor(
-            WeatherRepositoryImplementation(
-                OkHttpClient.Builder()
-                    .addInterceptor(LoggingInterceptor())
-                    .addInterceptor(ConnectionCheckInterceptor(ConnectionManager(this)))
-                    .build(),
-                "https://api.apixu.com/v1/current.json",
-                "105a2463d75842a1a3c94134190909",
-                Gson()
-            )
-        )
-    )
+    private val presenter: AuthorizationPresenter by inject()
     private val emailTextWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable) = Unit
         override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) = Unit
@@ -61,6 +43,9 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
+
+        DependenciesContainer().init(this)
+
         presenter.attachView(this)
 
         supportActionBar?.title = getString(R.string.authorization)
