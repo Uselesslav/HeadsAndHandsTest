@@ -1,15 +1,13 @@
 package com.example.headsandhandstest.authorization.application
 
 import com.example.headsandhandstest.kernel.application.ValidationException
-import kotlinx.coroutines.delay
 import java.util.*
 
-class AuthorizationInteractor {
-    suspend fun signIn(signInDto: SignInDto): String {
-        delay(1000)
-        validate(signInDto)
+class AuthorizationInteractor(private val weatherRepository: WeatherRepository) {
 
-        return "Погода дададада"
+    suspend fun signIn(signInDto: SignInDto): String {
+        validate(signInDto)
+        return weatherRepository.get()
     }
 
     private fun validate(signInDto: SignInDto) {

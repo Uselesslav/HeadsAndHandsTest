@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.headsandhandstest.authorization.ui
 
 import android.app.ProgressDialog
@@ -11,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
 import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
+import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
 import com.example.headsandhandstest.kernel.ui.hideKeyboard
 import com.example.headsandhandstest.kernel.ui.showKeyboard
 import com.example.headsandhandstest.kernel.ui.showSnackBar
@@ -19,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_authorization.*
 class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     // TODO: Use IoC
     private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation(
-        AuthorizationInteractor()
+        AuthorizationInteractor(WeatherRepositoryImplementation())
     )
     private val emailTextWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable) = Unit
