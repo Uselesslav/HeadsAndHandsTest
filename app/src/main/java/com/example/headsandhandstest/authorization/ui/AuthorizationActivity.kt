@@ -14,15 +14,25 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
 import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
 import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
+import com.example.headsandhandstest.kernel.infrastructure.LoggingInterceptor
 import com.example.headsandhandstest.kernel.ui.hideKeyboard
 import com.example.headsandhandstest.kernel.ui.showKeyboard
 import com.example.headsandhandstest.kernel.ui.showSnackBar
 import kotlinx.android.synthetic.main.activity_authorization.*
+import okhttp3.OkHttpClient
 
 class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     // TODO: Use IoC
     private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation(
-        AuthorizationInteractor(WeatherRepositoryImplementation())
+        AuthorizationInteractor(
+            WeatherRepositoryImplementation(
+                OkHttpClient.Builder().addInterceptor(
+                    LoggingInterceptor()
+                ).build(),
+                "https://api.apixu.com/v1/current.json",
+                "105a2463d75842a1a3c94134190909"
+            )
+        )
     )
     private val emailTextWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable) = Unit
