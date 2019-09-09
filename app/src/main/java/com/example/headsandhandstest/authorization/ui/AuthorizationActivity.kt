@@ -1,5 +1,6 @@
 package com.example.headsandhandstest.authorization.ui
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,6 +34,8 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
             presenter.changedEnteredPassword(authorizationEmail.text.toString(), p0.toString())
     }
 
+    // TODO: Use not deprecated Class
+    private val progressDialog: ProgressDialog by lazy { ProgressDialog(this) }
 
     //==============================================================================================
     //                              Lifecycle
@@ -93,7 +96,7 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
         }
 
     //==============================================================================================
-    //                              MVP
+    //                              Validation
     //==============================================================================================
     override fun showEmailNotValidError() {
         authorizationEmailLayout.error = getString(R.string.not_valid_email)
@@ -119,18 +122,35 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
             getString(R.string.password_must_contain_at_least_six_characters)
     }
 
-    override fun showSignInSuccess() {
-        showSnackBar(getString(R.string.sign_in_success), authorizationContainer)
-    }
-
     override fun showCreateMessage() {
         showSnackBar(getString(R.string.create), authorizationContainer)
     }
 
+    override fun clearEmailValidationMessage() {
+        authorizationEmailLayout.error = null
+    }
+
+    override fun clearPasswordValidationMessage() {
+        authorizationPasswordLayout.error = null
+    }
+
+    //==============================================================================================
+    //                              Sign in success
+    //==============================================================================================
+    override fun showSignInSuccess() {
+        showSnackBar(getString(R.string.sign_in_success), authorizationContainer)
+    }
+
+    //==============================================================================================
+    //                              Close
+    //==============================================================================================
     override fun close() {
         finish()
     }
 
+    //==============================================================================================
+    //                              Keyboard
+    //==============================================================================================
     override fun showKeyboardOnEmail() {
         showKeyboard(authorizationEmail)
     }
@@ -143,19 +163,27 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
         hideKeyboard()
     }
 
-    override fun clearEmailValidationMessage() {
-        authorizationEmailLayout.error = null
-    }
-
-    override fun clearPasswordValidationMessage() {
-        authorizationPasswordLayout.error = null
-    }
-
+    //==============================================================================================
+    //                              Sign in button
+    //==============================================================================================
     override fun setSignInButtonEnabled() {
         authorizationSignIn.isEnabled = true
     }
 
     override fun setSignInButtonDisabled() {
         authorizationSignIn.isEnabled = false
+    }
+
+    //==============================================================================================
+    //                              Loading Indicator
+    //==============================================================================================
+    override fun showLoadingIndicator() {
+        progressDialog.show()
+        progressDialog.setCancelable(false)
+        progressDialog.setContentView(R.layout.dialog_progress)
+    }
+
+    override fun hideLoadingIndicator() {
+        progressDialog.hide()
     }
 }

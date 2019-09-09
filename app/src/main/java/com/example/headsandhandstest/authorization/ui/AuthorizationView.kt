@@ -23,6 +23,11 @@ interface AuthorizationView : MvpView {
 
     fun showCreateMessage()
 
+    // TODO: Move to base View
+    fun showLoadingIndicator()
+
+    fun hideLoadingIndicator()
+
     // TODO: Move to Navigator
     fun close()
 }
