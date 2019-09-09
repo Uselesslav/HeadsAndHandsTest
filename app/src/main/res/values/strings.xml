@@ -11,4 +11,6 @@
     <string name="password_must_contain_at_one_lowercase_letter">Пароль должен содержать как минимум одну прописную букву</string>
     <string name="not_valid_email">Не валидный адресс электронной почты</string>
     <string name="password_must_contain_at_least_one_digit">Пароль должен содержать как минимум одну цифру</string>
+    <string name="no_connection_error">Отсутствует интернет соединение</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

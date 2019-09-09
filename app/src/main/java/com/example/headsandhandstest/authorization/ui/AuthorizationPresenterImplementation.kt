@@ -4,6 +4,7 @@ import com.example.headsandhandstest.authorization.application.AuthorizationInte
 import com.example.headsandhandstest.authorization.application.SignInDto
 import com.example.headsandhandstest.authorization.application.SignInValidationError
 import com.example.headsandhandstest.kernel.application.ValidationException
+import com.example.headsandhandstest.kernel.infrastructure.NoConnectionException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,6 +42,10 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
                 view.showSignInSuccess(result)
             } catch (validationException: ValidationException) {
                 catchValidationError(validationException.errors as MutableList<SignInValidationError>)
+            } catch (noConnectionException: NoConnectionException) {
+                view.showNoConnectionError()
+            } catch (exception: Exception) {
+                view.showUnknownError()
             } finally {
                 view.hideLoadingIndicator()
             }

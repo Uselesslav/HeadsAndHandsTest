@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
 import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
 import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
+import com.example.headsandhandstest.kernel.infrastructure.ConnectionCheckInterceptor
+import com.example.headsandhandstest.kernel.infrastructure.ConnectionManager
 import com.example.headsandhandstest.kernel.infrastructure.LoggingInterceptor
 import com.example.headsandhandstest.kernel.ui.hideKeyboard
 import com.example.headsandhandstest.kernel.ui.showKeyboard
@@ -27,9 +29,10 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     private val presenter: AuthorizationPresenter = AuthorizationPresenterImplementation(
         AuthorizationInteractor(
             WeatherRepositoryImplementation(
-                OkHttpClient.Builder().addInterceptor(
-                    LoggingInterceptor()
-                ).build(),
+                OkHttpClient.Builder()
+                    .addInterceptor(LoggingInterceptor())
+                    .addInterceptor(ConnectionCheckInterceptor(ConnectionManager(this)))
+                    .build(),
                 "https://api.apixu.com/v1/current.json",
                 "105a2463d75842a1a3c94134190909",
                 Gson()
@@ -200,5 +203,16 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
 
     override fun hideLoadingIndicator() {
         progressDialog.hide()
+    }
+
+    //==============================================================================================
+    //                              Errors TODO: Move to base class
+    //==============================================================================================
+    override fun showNoConnectionError() {
+        showSnackBar(getString(R.string.no_connection_error), authorizationContainer)
+    }
+
+    override fun showUnknownError() {
+        showSnackBar(getString(R.string.unknown_error), authorizationContainer)
     }
 }

@@ -30,4 +30,7 @@ interface AuthorizationView : MvpView {
 
     // TODO: Move to Navigator
     fun close()
+
+    fun showNoConnectionError()
+    fun showUnknownError()
 }
