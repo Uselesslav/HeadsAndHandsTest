@@ -1,10 +1,12 @@
 package com.example.headsandhandstest.authorization.application
 
 import com.example.headsandhandstest.kernel.application.ValidationException
+import kotlinx.coroutines.delay
 import java.util.*
 
 class AuthorizationInteractor {
-    fun signIn(signInDto: SignInDto) {
+    suspend fun signIn(signInDto: SignInDto) {
+        delay(1000)
         validate(signInDto)
     }
 

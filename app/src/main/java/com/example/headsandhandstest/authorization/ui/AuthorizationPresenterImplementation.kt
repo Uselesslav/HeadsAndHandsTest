@@ -4,6 +4,10 @@ import com.example.headsandhandstest.authorization.application.AuthorizationInte
 import com.example.headsandhandstest.authorization.application.SignInDto
 import com.example.headsandhandstest.authorization.application.SignInValidationError
 import com.example.headsandhandstest.kernel.application.ValidationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AuthorizationPresenterImplementation(private val authorizationInteractor: AuthorizationInteractor) :
     AuthorizationPresenter() {
@@ -26,12 +30,19 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
     }
 
     override fun signIn(email: String, password: String) {
-        try {
-            authorizationInteractor.signIn(SignInDto(email, password))
-            view.closeKeyboard()
-            view.showSignInSuccess()
-        } catch (validationException: ValidationException) {
-            catchValidationError(validationException.errors as MutableList<SignInValidationError>)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                view.showLoadingIndicator()
+                withContext(Dispatchers.IO) {
+                    authorizationInteractor.signIn(SignInDto(email, password))
+                }
+                view.closeKeyboard()
+                view.showSignInSuccess()
+            } catch (validationException: ValidationException) {
+                catchValidationError(validationException.errors as MutableList<SignInValidationError>)
+            } finally {
+                view.hideLoadingIndicator()
+            }
         }
     }
 
