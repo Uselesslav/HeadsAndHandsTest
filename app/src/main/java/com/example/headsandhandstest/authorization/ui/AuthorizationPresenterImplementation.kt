@@ -1,8 +1,9 @@
 package com.example.headsandhandstest.authorization.ui
 
 import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
+import com.example.headsandhandstest.authorization.application.EmailValidationError
+import com.example.headsandhandstest.authorization.application.PasswordValidationError
 import com.example.headsandhandstest.authorization.application.SignInDto
-import com.example.headsandhandstest.authorization.application.SignInValidationError
 import com.example.headsandhandstest.kernel.application.ValidationException
 import com.example.headsandhandstest.kernel.infrastructure.NoConnectionException
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
                 view.closeKeyboard()
                 view.showSignInSuccess(result)
             } catch (validationException: ValidationException) {
-                catchValidationError(validationException.errors as MutableList<SignInValidationError>)
+                catchValidationError(validationException.errors)
             } catch (noConnectionException: NoConnectionException) {
                 view.showNoConnectionError()
             } catch (exception: Exception) {
@@ -68,21 +69,28 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
         }
     }
 
-    private fun catchValidationError(errors: List<SignInValidationError>) {
+    private fun catchValidationError(errors: List<Any>) {
         errors.forEach {
-            if (it == SignInValidationError.EMAIL_NOT_VALID) {
-                view.showEmailNotValidError()
+            when (it) {
+                is EmailValidationError -> showEmailValidationError(it)
+                is PasswordValidationError -> showPasswordValidationError(it)
+                else -> view.showUnknownError()
             }
+        }
+    }
 
-            if (it == SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_SIX_CHARACTERS) {
-                view.showPasswordMustContainAtLeastSixCharactersError()
-            } else if (it == SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_CAPITAL_LETTER) {
-                view.showPasswordMustContainAtLeastOneCapitalLetterError()
-            } else if (it == SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LOWERCASE_LETTER) {
-                view.showPasswordMustContainAtLeastOneLowercaseLetterError()
-            } else if (it == SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_DIGIT) {
-                view.showPasswordMustContainAtLeastOneDigitError()
-            }
+    private fun showEmailValidationError(error: EmailValidationError) {
+        when (error) {
+            EmailValidationError.NOT_VALID -> view.showEmailNotValidError()
+        }
+    }
+
+    private fun showPasswordValidationError(error: PasswordValidationError) {
+        when (error) {
+            PasswordValidationError.NOT_CONTAIN_AT_LEAST_SIX_CHARACTERS -> view.showPasswordMustContainAtLeastSixCharactersError()
+            PasswordValidationError.NOT_CONTAIN_CAPITAL_LETTER -> view.showPasswordMustContainAtLeastOneCapitalLetterError()
+            PasswordValidationError.NOT_CONTAIN_LOWERCASE_LETTER -> view.showPasswordMustContainAtLeastOneLowercaseLetterError()
+            PasswordValidationError.NOT_CONTAIN_DIGIT -> view.showPasswordMustContainAtLeastOneDigitError()
         }
     }
 }

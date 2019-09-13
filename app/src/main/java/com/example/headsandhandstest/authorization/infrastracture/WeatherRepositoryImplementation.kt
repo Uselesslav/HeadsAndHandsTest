@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-
 class WeatherRepositoryImplementation(
     private val okHttpClient: OkHttpClient,
     private val baseUrl: String,

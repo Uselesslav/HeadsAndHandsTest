@@ -1,9 +1,12 @@
 package com.example.headsandhandstest.authorization.application
 
 import com.example.headsandhandstest.kernel.application.ValidationException
-import java.util.*
 
-class AuthorizationInteractor(private val weatherRepository: WeatherRepository) {
+class AuthorizationInteractor(
+    private val weatherRepository: WeatherRepository,
+    private val emailValidator: EmailValidator,
+    private val passwordValidator: PasswordValidator
+) {
 
     suspend fun signIn(signInDto: SignInDto): String {
         validate(signInDto)
@@ -14,22 +17,10 @@ class AuthorizationInteractor(private val weatherRepository: WeatherRepository) 
         val validationException =
             ValidationException()
 
-        // TODO: Move strings checking to another class
-        if (!signInDto.email.matches(Regex("^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$"))) {
-            validationException.addError(SignInValidationError.EMAIL_NOT_VALID)
-        }
-        if (signInDto.password == signInDto.password.toLowerCase(Locale.getDefault())) {
-            validationException.addError(SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_CAPITAL_LETTER)
-        }
-        if (signInDto.password == signInDto.password.toUpperCase(Locale.getDefault())) {
-            validationException.addError(SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LOWERCASE_LETTER)
-        }
-        if (signInDto.password.length < 6) {
-            validationException.addError(SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_SIX_CHARACTERS)
-        }
-        if (!signInDto.password.contains(Regex("[0-9]"))) {
-            validationException.addError(SignInValidationError.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_DIGIT)
-        }
+        emailValidator.getValidationErrors(signInDto.email)
+            .forEach { validationException.addError(it) }
+        passwordValidator.getValidationErrors(signInDto.password)
+            .forEach { validationException.addError(it) }
 
         validationException.throwIfErrorsNotEmpty()
     }

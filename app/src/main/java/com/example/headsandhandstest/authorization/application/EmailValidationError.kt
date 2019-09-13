@@ -1,5 +1,5 @@
 package com.example.headsandhandstest.authorization.application
 
-interface WeatherRepository {
-    suspend fun get(): String
+enum class EmailValidationError {
+    NOT_VALID
 }
