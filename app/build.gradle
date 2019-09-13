@@ -14,6 +14,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties weatherProperties = new Properties()
+        weatherProperties.load(new FileInputStream(file(project.property("weather-api.properties"))))
+
+        buildConfigField "String", "WEATHER_URL", weatherProperties['url']
+        buildConfigField "String", "WEATHER_TOKEN", weatherProperties['token']
     }
     buildTypes {
         release {

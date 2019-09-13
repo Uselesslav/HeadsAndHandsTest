@@ -1,6 +1,7 @@
 package com.example.headsandhandstest.authorization
 
 import android.content.Context
+import com.example.headsandhandstest.BuildConfig
 import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
 import com.example.headsandhandstest.authorization.application.WeatherRepository
 import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
@@ -18,8 +19,8 @@ import org.koin.dsl.module
 
 class DependenciesContainer {
     companion object {
-        private const val URL = "https://api.apixu.com/v1/current.json"
-        private const val TOKEN = "105a2463d75842a1a3c94134190909"
+        private const val URL = BuildConfig.WEATHER_URL
+        private const val TOKEN = BuildConfig.WEATHER_TOKEN
     }
 
     private val authorizationModule = module {
