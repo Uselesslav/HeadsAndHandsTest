@@ -2,10 +2,7 @@ package com.example.headsandhandstest.authorization
 
 import android.content.Context
 import com.example.headsandhandstest.BuildConfig
-import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
-import com.example.headsandhandstest.authorization.application.EmailValidator
-import com.example.headsandhandstest.authorization.application.PasswordValidator
-import com.example.headsandhandstest.authorization.application.WeatherRepository
+import com.example.headsandhandstest.authorization.application.*
 import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenter
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenterImplementation
@@ -26,10 +23,11 @@ class DependenciesContainer {
     }
 
     private val authorizationModule = module {
-        factory { AuthorizationInteractor(get(), get(), get()) }
+        factory { AuthorizationInteractor(get(), get()) }
         factory<AuthorizationPresenter> { AuthorizationPresenterImplementation(get()) }
         factory { EmailValidator() }
         factory { PasswordValidator() }
+        factory { SignInDtoValidator(get(), get()) }
     }
 
     private val weatherModule = module {
