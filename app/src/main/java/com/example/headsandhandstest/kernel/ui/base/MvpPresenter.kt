@@ -1,4 +1,4 @@
-package com.example.headsandhandstest.base
+package com.example.headsandhandstest.kernel.ui.base
 
 abstract class MvpPresenter<T : MvpView> {
     protected lateinit var view: T

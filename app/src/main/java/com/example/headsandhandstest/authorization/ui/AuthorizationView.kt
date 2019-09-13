@@ -1,6 +1,6 @@
 package com.example.headsandhandstest.authorization.ui
 
-import com.example.headsandhandstest.base.MvpView
+import com.example.headsandhandstest.kernel.ui.base.MvpView
 
 interface AuthorizationView : MvpView {
     fun showEmailNotValidError()

@@ -1,6 +1,6 @@
 package com.example.headsandhandstest.authorization.ui
 
-import com.example.headsandhandstest.base.MvpPresenter
+import com.example.headsandhandstest.kernel.ui.base.MvpPresenter
 
 abstract class AuthorizationPresenter : MvpPresenter<AuthorizationView>() {
     abstract fun signIn(email: String, password: String)
