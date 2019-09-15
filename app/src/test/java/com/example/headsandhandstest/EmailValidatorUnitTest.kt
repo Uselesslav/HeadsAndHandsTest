@@ -24,8 +24,17 @@ class EmailValidatorUnitTest {
     @Test
     fun notValidEmail() {
         val expectedErrors = EmailValidationError.values()
-        val actualErrors = emailValidator.getValidationErrors("qwr@dw").toTypedArray()
+        val actualErrors = mutableSetOf<EmailValidationError>()
 
-        Assert.assertArrayEquals(expectedErrors, actualErrors)
+        actualErrors.addAll(emailValidator.getValidationErrors("qwr@dw"))
+        actualErrors.addAll(emailValidator.getValidationErrors("qwr@.com"))
+        actualErrors.addAll(emailValidator.getValidationErrors("@.com"))
+        actualErrors.addAll(emailValidator.getValidationErrors("@com"))
+        actualErrors.addAll(emailValidator.getValidationErrors(".com"))
+        actualErrors.addAll(emailValidator.getValidationErrors("qwrdw"))
+        actualErrors.addAll(emailValidator.getValidationErrors("qw.rdw"))
+        actualErrors.addAll(emailValidator.getValidationErrors(""))
+
+        Assert.assertArrayEquals(expectedErrors, actualErrors.toTypedArray())
     }
 }
