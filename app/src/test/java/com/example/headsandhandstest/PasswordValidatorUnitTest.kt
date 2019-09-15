@@ -5,6 +5,7 @@ import com.example.headsandhandstest.authorization.application.PasswordValidator
 import org.junit.Assert
 import org.junit.Test
 
+// TODO: Подумать о том, как протестировать большее кол-во кейсов
 class PasswordValidatorUnitTest {
     private val passwordValidator = PasswordValidator()
 
