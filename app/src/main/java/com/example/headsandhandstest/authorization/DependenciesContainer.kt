@@ -10,6 +10,8 @@ import com.example.headsandhandstest.kernel.infrastructure.ConnectionCheckInterc
 import com.example.headsandhandstest.kernel.infrastructure.ConnectionManager
 import com.example.headsandhandstest.kernel.infrastructure.LoggingInterceptor
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -24,7 +26,13 @@ class DependenciesContainer {
 
     private val authorizationModule = module {
         factory { AuthorizationInteractor(get(), get()) }
-        factory<AuthorizationPresenter> { AuthorizationPresenterImplementation(get()) }
+        factory<AuthorizationPresenter> {
+            AuthorizationPresenterImplementation(
+                get(),
+                GlobalScope,
+                Dispatchers
+            )
+        }
         factory { EmailValidator() }
         factory { PasswordValidator() }
         factory { SignInDtoValidator(get(), get()) }

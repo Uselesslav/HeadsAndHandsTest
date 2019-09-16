@@ -6,12 +6,16 @@ import com.example.headsandhandstest.authorization.application.PasswordValidatio
 import com.example.headsandhandstest.authorization.application.SignInDto
 import com.example.headsandhandstest.kernel.application.ValidationException
 import com.example.headsandhandstest.kernel.infrastructure.NoConnectionException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AuthorizationPresenterImplementation(private val authorizationInteractor: AuthorizationInteractor) :
+class AuthorizationPresenterImplementation(
+    private val authorizationInteractor: AuthorizationInteractor,
+    private val coroutineScope: CoroutineScope,
+    private val dispatchers: Dispatchers
+) :
     AuthorizationPresenter() {
     override fun onResume() {
         view.showKeyboardOnEmail()
@@ -32,11 +36,11 @@ class AuthorizationPresenterImplementation(private val authorizationInteractor: 
     }
 
     override fun signIn(email: String, password: String) {
-        GlobalScope.launch(Dispatchers.Main) {
+        coroutineScope.launch(dispatchers.Main) {
             try {
                 view.showLoadingIndicator()
                 val result =
-                    withContext(Dispatchers.IO) {
+                    withContext(dispatchers.IO) {
                         authorizationInteractor.signIn(SignInDto(email, password))
                     }
                 view.closeKeyboard()

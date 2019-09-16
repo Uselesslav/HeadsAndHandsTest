@@ -3,20 +3,53 @@ package com.example.headsandhandstest
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenter
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenterImplementation
 import com.example.headsandhandstest.authorization.ui.AuthorizationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
 class AuthorizationPresenterTest {
-    private val authorizationPresenter: AuthorizationPresenter =
-        AuthorizationPresenterImplementation(AuthorizationInteractorFactory().create())
+    companion object {
+        private const val CORRECT_EMAIL = "qwer@fsd.cw"
+        private const val CORRECT_PASSWORD = "QWer12"
+        private const val SIGN_IN_RESULT = "Weather"
+    }
 
+    private val testCoroutineScope = TestCoroutineScope()
+    private val testDispatcher = TestCoroutineDispatcher()
+    private val authorizationPresenter: AuthorizationPresenter =
+        AuthorizationPresenterImplementation(
+            AuthorizationInteractorFactory().create(SIGN_IN_RESULT),
+            testCoroutineScope,
+            Dispatchers
+        )
     private val mockAuthorizationView: AuthorizationView =
         Mockito.mock(AuthorizationView::class.java)
 
     @Before
-    fun attachView() {
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
         authorizationPresenter.attachView(mockAuthorizationView)
+    }
+
+    @After
+    fun cleanUp() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
+
+    @Test
+    fun signIn() {
+        testCoroutineScope.runBlockingTest {
+            authorizationPresenter.signIn(CORRECT_EMAIL, CORRECT_PASSWORD)
+
+            Mockito.verify(mockAuthorizationView).showLoadingIndicator()
+            Mockito.verify(mockAuthorizationView).hideLoadingIndicator()
+            Mockito.verify(mockAuthorizationView).closeKeyboard()
+            Mockito.verify(mockAuthorizationView).showSignInSuccess(SIGN_IN_RESULT)
+        }
     }
 
     @Test
