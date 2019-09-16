@@ -8,6 +8,7 @@ internal class LoggingInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
+        // TODO: Use logger
         Log.d("REQUEST", "==============================")
         Log.d("METHOD", request.method)
         Log.d("URL", request.url.toString())

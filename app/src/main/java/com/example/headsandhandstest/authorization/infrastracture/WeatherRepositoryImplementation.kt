@@ -11,6 +11,7 @@ class WeatherRepositoryImplementation(
     private val okHttpClient: OkHttpClient,
     private val baseUrl: String,
     private val token: String,
+    // TODO: Use wrapper
     private val gson: Gson
 ) : WeatherRepository {
     companion object {
