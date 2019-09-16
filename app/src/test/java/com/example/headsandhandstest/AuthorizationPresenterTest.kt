@@ -3,8 +3,9 @@ package com.example.headsandhandstest
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenter
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenterImplementation
 import com.example.headsandhandstest.authorization.ui.AuthorizationView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -23,20 +24,19 @@ class AuthorizationPresenterTest {
         AuthorizationPresenterImplementation(
             AuthorizationInteractorFactory().create(SIGN_IN_RESULT),
             testCoroutineScope,
-            Dispatchers
+            testDispatcher,
+            testDispatcher
         )
     private val mockAuthorizationView: AuthorizationView =
         Mockito.mock(AuthorizationView::class.java)
 
     @Before
     fun setup() {
-        Dispatchers.setMain(testDispatcher)
         authorizationPresenter.attachView(mockAuthorizationView)
     }
 
     @After
     fun cleanUp() {
-        Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
     }
 
@@ -49,6 +49,23 @@ class AuthorizationPresenterTest {
             Mockito.verify(mockAuthorizationView).hideLoadingIndicator()
             Mockito.verify(mockAuthorizationView).closeKeyboard()
             Mockito.verify(mockAuthorizationView).showSignInSuccess(SIGN_IN_RESULT)
+        }
+    }
+
+    @Test
+    fun signInWithNotValidEmailAndPassword() {
+        testCoroutineScope.runBlockingTest {
+            authorizationPresenter.signIn("", "")
+
+            Mockito.verify(mockAuthorizationView).showLoadingIndicator()
+            Mockito.verify(mockAuthorizationView).hideLoadingIndicator()
+            Mockito.verify(mockAuthorizationView).showPasswordMustContainAtLeastSixCharactersError()
+            Mockito.verify(mockAuthorizationView)
+                .showPasswordMustContainAtLeastOneCapitalLetterError()
+            Mockito.verify(mockAuthorizationView)
+                .showPasswordMustContainAtLeastOneLowercaseLetterError()
+            Mockito.verify(mockAuthorizationView).showPasswordMustContainAtLeastOneDigitError()
+            Mockito.verify(mockAuthorizationView).showEmailNotValidError()
         }
     }
 

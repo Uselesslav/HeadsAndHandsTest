@@ -30,7 +30,8 @@ class DependenciesContainer {
             AuthorizationPresenterImplementation(
                 get(),
                 GlobalScope,
-                Dispatchers
+                Dispatchers.Main,
+                Dispatchers.IO
             )
         }
         factory { EmailValidator() }
