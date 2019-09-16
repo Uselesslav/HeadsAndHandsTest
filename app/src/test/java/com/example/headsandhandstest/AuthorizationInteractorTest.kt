@@ -1,6 +1,7 @@
 package com.example.headsandhandstest
 
-import com.example.headsandhandstest.authorization.application.*
+import com.example.headsandhandstest.authorization.application.AuthorizationInteractor
+import com.example.headsandhandstest.authorization.application.SignInDto
 import com.example.headsandhandstest.kernel.application.ValidationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -9,7 +10,7 @@ import org.junit.Test
 class AuthorizationInteractorTest {
     private val authorizationInteractor = AuthorizationInteractor(
         WeatherRepositoryMockImplementation(MOCK_RESPONSE),
-        SignInDtoValidator(EmailValidator(), PasswordValidator())
+        SignInDtoValidatorFactory().create()
     )
 
     companion object {
