@@ -1,6 +1,7 @@
 package com.example.headsandhandstest
 
 import com.example.headsandhandstest.authorization.application.SignInDto
+import com.example.headsandhandstest.authorization.application.Weather
 import com.example.headsandhandstest.kernel.application.ValidationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -11,7 +12,7 @@ class AuthorizationInteractorTest {
         AuthorizationInteractorFactory().create(MOCK_RESPONSE)
 
     companion object {
-        private const val MOCK_RESPONSE = "Moscow 21"
+        private val MOCK_RESPONSE = Weather("Afaf", 32)
         private const val CORRECT_EMAIL = "qwe@rew.co"
         private const val CORRECT_PASSWORD = "Qw4sdE"
     }

@@ -3,6 +3,7 @@ package com.example.headsandhandstest.authorization
 import android.content.Context
 import com.example.headsandhandstest.BuildConfig
 import com.example.headsandhandstest.authorization.application.*
+import com.example.headsandhandstest.authorization.infrastracture.WeatherConverter
 import com.example.headsandhandstest.authorization.infrastracture.WeatherRepositoryImplementation
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenter
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenterImplementation
@@ -40,7 +41,16 @@ class DependenciesContainer {
     }
 
     private val weatherModule = module {
-        factory<WeatherRepository> { WeatherRepositoryImplementation(get(), URL, TOKEN, get()) }
+        factory<WeatherRepository> {
+            WeatherRepositoryImplementation(
+                get(),
+                URL,
+                TOKEN,
+                get(),
+                get()
+            )
+        }
+        factory { WeatherConverter() }
     }
 
     private val kernelInfrastructureModule = module {

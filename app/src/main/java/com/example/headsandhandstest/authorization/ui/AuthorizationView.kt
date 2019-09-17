@@ -1,5 +1,6 @@
 package com.example.headsandhandstest.authorization.ui
 
+import com.example.headsandhandstest.authorization.application.Weather
 import com.example.headsandhandstest.kernel.ui.base.MvpView
 
 interface AuthorizationView : MvpView {
@@ -9,7 +10,7 @@ interface AuthorizationView : MvpView {
     fun showPasswordMustContainAtLeastOneDigitError()
     fun showPasswordMustContainAtLeastSixCharactersError()
 
-    fun showSignInSuccess(result: String)
+    fun showSignInSuccess(weather: Weather)
 
     fun showKeyboardOnEmail()
     fun showKeyboardOnPassword()

@@ -1,5 +1,6 @@
 package com.example.headsandhandstest
 
+import com.example.headsandhandstest.authorization.application.Weather
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenter
 import com.example.headsandhandstest.authorization.ui.AuthorizationPresenterImplementation
 import com.example.headsandhandstest.authorization.ui.AuthorizationView
@@ -15,7 +16,7 @@ class AuthorizationPresenterTest {
     companion object {
         private const val CORRECT_EMAIL = "qwer@fsd.cw"
         private const val CORRECT_PASSWORD = "QWer12"
-        private const val SIGN_IN_RESULT = "Weather"
+        private val SIGN_IN_RESULT = Weather("FFfff", 24)
     }
 
     private val testCoroutineScope = TestCoroutineScope()

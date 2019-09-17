@@ -1,5 +1,3 @@
 package com.example.headsandhandstest.authorization.application
 
-interface WeatherRepository {
-    suspend fun get(): Weather
-}
+class Weather(val locationName: String, val temperature: Int)

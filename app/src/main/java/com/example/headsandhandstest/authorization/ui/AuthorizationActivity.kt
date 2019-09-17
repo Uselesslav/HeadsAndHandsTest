@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.example.headsandhandstest.R
 import com.example.headsandhandstest.authorization.DependenciesContainer
+import com.example.headsandhandstest.authorization.application.Weather
 import com.example.headsandhandstest.kernel.ui.hideKeyboard
 import com.example.headsandhandstest.kernel.ui.showKeyboard
 import com.example.headsandhandstest.kernel.ui.showSnackBar
@@ -140,8 +141,8 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationView {
     //==============================================================================================
     //                              Sign in success
     //==============================================================================================
-    override fun showSignInSuccess(result: String) {
-        showSnackBar(result, authorizationContainer)
+    override fun showSignInSuccess(weather: Weather) {
+        showSnackBar("${weather.locationName} ${weather.temperature}", authorizationContainer)
     }
 
     //==============================================================================================
